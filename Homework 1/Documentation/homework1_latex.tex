@@ -36,7 +36,7 @@
 
 
 Raportul nostru contine rezultate, comparatii, concluzii si grafice care scot in evidenta eficienta algoritmilor studiati. Problema presupune gasirea minimului global al unor functii cu dimensiuni diferite. Scopul este observarea algoritmului care ofera rezultate bune pentru imputuri mai mari sau mai mici. Am testat algoritmii folosind urmatoarele patru functii functiile: \href{http://www.geatbx.com/docu/fcnindex-01.html#P89_3085}{\textbf{DeJong's function}}, \href{http://www.geatbx.com/docu/fcnindex-01.html#P150_6749}{\textbf{Schwefel's function}},
-\href{http://www.geatbx.com/docu/fcnindex-01.html#P140_6155}{\textbf{Rastrigin's function}} si \href{http://www.geatbx.com/docu/fcnindex-01.html#P204_10395}{\textbf{Michalewicz's function}}. Dupa cum se observa in imaginile de mai jos fiecare functie are un numar diferit de minime pur locale.
+\href{http://www.geatbx.com/docu/fcnindex-01.html#P140_6155}{\textbf{Rastrigin's function}} si \href{http://www.geatbx.com/docu/fcnindex-01.html#P204_10395}{\textbf{Michalewicz's function}}. 
 
 
 
@@ -50,7 +50,7 @@ Am facut o functie comuna pentru HCFI, HCBI SI HCWI ce ia pe langa restul parame
 
 
 \section{Rezultate}
-Mai jos am realizat un tabel pentru fiecare dimensiune studiata. Fiecare celula contine urmatoarele valori in aceasta ordine: valoarea minima, timpul de executie, media valorilor si deviatia standard.
+Mai jos am realizat un tabel pentru fiecare dimensiune studiata. Fiecare celula contine urmatoarele valori in aceasta ordine: valoarea minima, timpul de executie si media valorilor.
 
 
 \begin{center}
@@ -66,22 +66,22 @@ Mai jos am realizat un tabel pentru fiecare dimensiune studiata. Fiecare celula 
     De Jong     & \( 1.13687e-10 \) & \(1.13687e-10 \) & \(0.21914 \) & \( 1.15801e-08 \)\\
                 & 6m 36s & 7m 32s & 3m 19s & 22s \\
                 & \( 1.13687e-10 \) & \( 1.13687e-10 \) &  \( 1.19896 \) &\(1.18321e-08\)\\
-                & \( 1.13687e-10 \) & \( 1.13678e-10 \) & \( 1.57886 \)  & \(1.15667\)\\
+                
                 \hline
     Schwefel    & \( -2094.91 \) & \( -2094.91 \) & \( -1913.34 \) & \(-2094.91\) \\
                 & 9m 52s & 12m 24s & 4m 37s & 26s\\
                 & \( -2094.8 \) & \( -2094.91 \) &  \( -1816.04\) & \(-2094.89\)\\
-                & \( 4.4632e+06 \) & \( 4.46369e+06 \) & \(2.6618e+06 \) & (2.6608e+06)\\
+                
                 \hline
     Rastrigin   & \( 4.51065e-09 \) & \( 4.51065e-09 \) & \( 10.5475 \) & \(4.51065e-09\)\\
                 & 5m 21s &  12m 10s &  3m 28s & 27s\\ 
                 & \( 0.132669 \) & \( 4.51065e-09 \) &  \( 15.6557 \) & \(2.678e-10\)\\
-                & \( 0.0490265 \) & \( 2.06938e-17 \) & \( 13.063 \) & \(0.053954\)\\
+                
                 \hline
-    Michalewicz & \( -25.8959 \) & \( -3.69888 \) & \( -3.2954 \) & \(-3.69888\)\\
+    Michalewicz & \( -3.69888 \) & \( -3.69888 \) & \( -3.2954 \) & \(-3.69888\)\\
                 & 4m 52s & 7m 33s & 2m 30s & 27s \\
                 & \( -0.863196 \) & \( -3.69888 \) &  \( -2.94408 \) & \(-3.69888\)\\
-                & \( 13.9156 \) & \( 13.9188 \) & \( 8.83487 \) & \( 13.9188 \)\\
+                
 
     \hline
   \end{tabular}
@@ -100,23 +100,22 @@ Mai jos am realizat un tabel pentru fiecare dimensiune studiata. Fiecare celula 
     De Jong     & \(2.27374e-10\) & \( 2.27374e-10 \) & \( 3.99246 \) & \(1.33266e-07\) \\
                 & 40m 15s &  54m 37s & 28m 14s & 45s  \\
                 & \( 2.27374e-10 \) & \( 2.9857e-10 \) &  \( 6.5061 \) &  \(2.27374e-10\)\\
-                & \( 5.25826e-20 \) & \( 5.25826e-20 \) & \( 16.924 \) & \(2.8954e-20\) \\
+                
                 \hline
     Schwefel    & \( -4130.74 \) & \( -4189.51 \) & \( -3630.58 \) & \(-4160.03\)\\
                 & 58m 32s & 1h 27m & 23m 8s & 56s\\
                 & \( -4112.18 \) & \( -4166.4 \) &  \( -3211.317 \) & \(-41520.48\)\\
-                & \( 1.76559e+07 \) & \( 1.76559e+07 \) & \( 5.29618e+06 \) & \(1.87432e+07\) \\
+                
                 \hline
     Rastrigin   & \( 1.99004 \) & \( 0.995017 \) & \( 32.247 \) & \(3.23129\) \\
                 & 47m 36s & 1h 8m & 31m 14s & 54s\\
                 & \( 3.82047 \) & \( 2.46945 \) &  \( 48.3496 \) & \(5.7319\)\\
-                & \( 12.1267 \) & \( 4.43286
- \) & \( 139.35 \) & \(17.4815\) \\
+                
                 \hline
     Michalewicz & \( -8.61317 \) & \( -8.6432 \) & \( -5.06779 \) & \(-8.59603\)\\
                 & 45m 17s &  1h 12m & 29m 47s & 48s \\
                 & \( -8.61317 \) & \( -7.131895 \) &  \( -4.49717 \) & \(-8.5402\)\\
-                & \( 34.0163 \) & \( 45.0906 \) & \( 20.6067 \) & \(42.6825\) \\
+                
 
     \hline
   \end{tabular}

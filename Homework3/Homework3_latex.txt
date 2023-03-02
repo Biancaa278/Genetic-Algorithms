@@ -1,0 +1,185 @@
+\documentclass[12pt]{article}
+
+ \usepackage{graphics}
+
+
+\usepackage{geometry}
+  \geometry{
+    a4paper,
+    total={6in, 9in},
+    top=20mm,
+  }
+
+\usepackage{graphicx}
+\graphicspath{ {./img/} }
+
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{hyperref}
+
+\usepackage{pgfplots}   
+\pgfplotsset{width=5in,compat=1.9}
+
+\title{Tema 3 - Analiză Algoritm Genetic și Simulated Anneling pentru probema Comisului Voiajor}
+\author{Renghiuc Bianca Elena si Culbece Rose-Marie 2A2}
+\date{10.01.2023}
+
+\begin{document}
+
+\maketitle
+
+\section*{Abstract}
+
+În acest raport, vom compara două metode euristice ce rezolvă problema Comisului Voiajor: Simlated Anneling și Algoritm Gentic. Pentru a realiza această comparație am folosit instanțe cu dificultăți diferite: ușoară (ex:BIER127), medie (ex:D493) și dificilă (ex:PCB 1173). Experimentele făcute vor arăta faptul că metoda Simulated Annealing dă rezultate mai bune și, în anumite cazuri, într-un timp mai bun decât Algoritmul Genetic.
+
+
+
+\section{Introducere}
+
+Problema Comisului Voiajor este o problemă algoritmică a cărui scop este găsirea celei mai scurte rute între un set de puncte. În enunțul problemei, punctele sunt orașele pe care le-ar putea vizita un agent de vânzări. Scopul vânzătorului este de a menține atât costurile de călătorie, cât și distanța parcursă cât mai mici posibil. Algoritmii genetici sunt tehnici adaptive de căutare euristică, bazate pe principiile geneticii și ale selecției naturale, enunțate de Darwin ("supraviețuiește cel care e cel mai bine adaptat"). Simlated Anneling este un proces de generare a soluției euristice care se bazează pe logică și reguli pentru a schimba în mod iterativ o soluție suboptimă la o problemă și încearcă să găsească cea mai bună soluție posibilă, de obicei o soluție aproape optimă. În continuare vom prezenta cele două metode descrise și comparații între acestea pentru a rezolva problema Comisului Voiajor. Vom descrie diverse experimente efectuate asupra problemei și vom discuta despre performanța acestora pentru fiecare din cele două metode. 
+
+
+\section{Metode}
+
+Pentru a reuși să găsim o soluție optimă trebuie să memorăm nodurile prin care vom trece. Pentru a nu avea probleme în timpul mutației sau în timpul corssover-ului vom crea o codificare a.î. nodul de pe poziția i să aibă valoarea maxim egală cu n-1-i unde n este numărul total de noduri. \newpage
+
+$\bullet$ \textbf{Simulated Anneling}
+
+La aceasta metodă ne-am folosit de o temperatură T care inițial este egală cu 100 și de un factor de răcire care este egal cu 0.99. Temperatura va scădea la fiecare pas în funcție de acest factor pâna va ajunge la valoarea $10^{-8}$. Inițial luăm un candidat random căruia îi generăm un vecin și dacă acest vecin este mai bun vom actualiza soluția curentă cu valoarea vecinului. Vom genera o probabilitate r care ne va ajuta să alegem un vecin mai rău decât soluția curentă dacă acest r este mai mic decât $exp(-|valoare\_curenta - valoare\_vecin|/ T)$.
+\newline
+
+\par
+$\bullet$ \textbf{Algoritm Genetic}
+
+  Această metoda folosește o populație care are 200 de indivizi și un număr de 2000 de generații. La fiecare pas al evoluției vor avea loc următoarele operații pentru fiecare generație în parte: 
+  
+  1. Mutația are inițial valoarea $1 / n$ unde n este numărul de dimensiuni iar la fiecare generație această probabilitate este multiplicată cu 1.0005. Se generează o poziție random unde să se facă mutația iar valoarea de pe acea poziție se va incrementa și la valoarea obținută vom face \% (n-1-i) .
+  
+  2. Încrucișarea se realizează generând o poziție random, se vor crea 2 copii ce vor fi adăgați la populație în modul următor: pentru primul copil se iau valori din primul părinte de la început până la poziția generată continuând cu valori din cel de al doilea părinte. Iar pentru al doilea copil se iau valori din al doilea părinte de la început până la poziția generată continuând cu valori din primul părinte. Probabilitatea de încrucișare este egala cu 0.3.
+
+  3. Selecția va lua cele mai bune soluții din populație folosind metoda selecției turneu, reușind la fiecare generație să păstreze cei mai buni indivizi de până la momentul respectiv.
+  
+\section{Rezultate}
+
+Pentru experimentele de la AG am folosit 200 de indivizi și 2000 de generații iar pentru SA am pornit cu o temperatură egală cu 100 ce scade până la $10^{-8}$. Fiecare test a fost efectuat de 30 de ori pentru a putea calcula minimul și media valorilor obținute.
+
+\begin{center}
+  \begin{tabular}{ |P{2.5cm}||P{2cm}|P{2.2cm}|P{2.2cm}|P{2.2cm}| }
+      
+    \hline
+    \multicolumn{5}{|c|}{ Algoritm Genetic } \\
+    
+    \hline
+      Problema & Optim & Minim & Medie & Timp (sec) \\
+    \hline
+
+    BERLIN 52     & \( 7542 \) & \( 7783 \) & \( 8135 \) & \( 3.87923 \)\\
+                
+                
+                \hline
+    BIER 127     & \( 118282 \) & \( 132421 \) & \( 137844 \) & \(8.66735\)\\
+                
+                
+                \hline
+    A 280   & \( 2579 \) & \( 2897 \) & \( 3125 \) & \(16.74921\)\\
+                
+                
+                \hline
+    LIN 318 & \( 42029 \) & \( 46873 \) & \( 48115 \) & \(29.5363\)\\
+   
+                 
+                \hline
+    D 493 & \( 35002 \) & \( 39176 \) & \( 42065 \) & \(72.32453\) \\
+     
+                \hline
+    RAT 783  & \( 8806 \) & \( 9974 \) & \( 10823 \) & \(197.78712\)\\
+     
+                \hline
+    DSJ 1000 & \( 18659688 \) & \( 22543275 \) & \( 22947395 \) & \(457.89125\)\\
+
+                \hline
+    PCB 1173 & \( 56892 \) & \( 66492 \) & \( 68267 \) & \(391.78632\)\\
+
+                 \hline
+    RL 1304 & \( 252948 \) & \( 305822 \) & \( 318874 \) & \(692.15477\)\\
+                
+
+    \hline
+  \end{tabular}
+\end{center}
+
+
+
+
+\begin{center}
+  \begin{tabular}{ |P{2.5cm}||P{2cm}|P{2.2cm}|P{2.2cm}|P{2.2cm}| }
+      
+    \hline
+    \multicolumn{5}{|c|}{ Simulated Anneling} \\
+    
+    \hline
+      Problema & Optim & Minim & Medie & Timp (sec) \\
+    \hline
+
+    BERLIN 52     & \( 7542 \) & \( 7614 \) & \( 7678 \) & \( 52.65397 \)\\
+                
+                
+                \hline
+    BIER 127     & \( 118282 \) & \( 124372 \) & \( 127422 \) & \(98.35662\)\\
+                
+                
+                \hline
+    A 280   & \( 2579\) & \( 2743 \) & \( 2815 \) & \(73.55726\)\\
+                
+                
+                \hline
+    LIN 318 & \(42029 \) & \( 44937 \) & \( 46217 \) & \(109.33217\)\\
+   
+                 
+                \hline
+    D 493 & \( 35002 \) & \( 37193 \) & \( 39162 \) & \(95.76562\) \\
+     
+                \hline
+    RAT 783  & \( 8806 \) & \( 9737 \) & \( 10149 \) & \(118.23305\)\\
+     
+                \hline
+    DSJ 1000 & \( 18659688 \) & \( 21186637 \) & \( 21773833 \) & \(162.945\)\\
+
+                \hline
+    PCB 1173 & \( 56892 \) & \( 64679 \) & \( 67110 \) & \(136.85485\)\\
+
+                 \hline
+    RL 1304 & \( 252948 \) & \( 298637 \) & \( 304941 \) & \(189.394612\)\\
+                
+
+    \hline
+  \end{tabular}
+\end{center}
+
+
+\section{Comparatii}
+
+
+În ceea ce privește valorile obținute SA reușește să obține rezultate mai bune decât Algoritmul Genetic. Acest lucru se datorează faptului că SA generează o probabilitate care oferă șansa și unei soluții mai slabe ceea ce extinde spațiul de explorare al soluțiilor. Se poate observa că pentru inputuri de dimensiuni mai mici algoritmul genetic este mai rapid dar, pentru inputuri mai mari, SA reușește să ofere un rezultat intr-un timp mai scurt. Deși pentru anumite inputuri SA merge mai greu din punct de vedere al timpului, soluțiile pe care le oferă sunt semnificativ mai bune decât ale Algoritmului Genetic.
+
+
+\section{Concluzie}
+În acest raport am reușit să comparăm 2 metode (Algoritm Genetic și Simulated Anneling) pentru a rezolva problema Comisului Voiajor. Performanțele celor două metode s-au dovedit a fi diferite. Algoritmul Genetic a reușit sa dea un rezultat într-un timp mai mic pentru inputuri mai mici, iar SA a reușit sa dea un rezultat într-un timp mai mic pentru inputuri mai mari. Pe baza acestui raport, putem ajunge la concluzia că SA este o soluție mai bună și mai eficientă dacă avem de rezolvat probleme cu inputuri mari.
+
+
+\begin{thebibliography}{3}
+  
+  \bibitem{}
+    Eugen Croitoru: Teaching: Genetic Algorithms \newline
+    \url{https://profs.info.uaic.ro/~eugennc/teaching/ga/}
+  \bibitem{}
+  What are Genetic Algorithms? \newline
+    \url{http://www.optiwater.com/optiga/ga.html?fbclid=IwAR0hjKRmpOjFvSetqI4Wz-jpNtSrxjLGZaP4wjpfANwguvmAcbYl7ND93GE}
+\bibitem{}
+    Problema Comisului Voiajor \newline
+    \url{http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/}
+\end{thebibliography}  
+\end{document}

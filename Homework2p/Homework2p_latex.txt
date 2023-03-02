@@ -1,0 +1,482 @@
+\documentclass[12pt]{article}
+
+ \usepackage{graphics}
+
+
+\usepackage{geometry}
+  \geometry{
+    a4paper,
+    total={6in, 9in},
+    top=20mm,
+  }
+
+\usepackage{graphicx}
+\graphicspath{ {./img/} }
+
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{hyperref}
+
+\usepackage{pgfplots}   
+\pgfplotsset{width=5in,compat=1.9}
+
+\title{Tema 2' - Optimizare algoritmi genetici si comparare cu rezultatele obtinute la Simulated Annealing, Hill Climbing și algoritmi genetici neoptimizat\\* pentru aflarea minimului funcțiilor DeJong, Schwefel, Rastrigin și Michalewicz}
+\author{Renghiuc Bianca Elena si Culbece Rose-Marie 2A2}
+\date{22.11.2022}
+
+\begin{document}
+
+\maketitle
+
+\section*{Abstract}
+
+Raportul nostru conține rezultate, comparații, concluzii și grafice care scot în evidență eficiența algoritmilor genetici. Problema presupune găsirea minimului global al unor funcții cu dimensiuni diferite. Scopul este observarea rezultatelor pentru imputuri mai mari sau mai mici. Am testat algoritmul folosind următoarele patru funcții: \href{http://www.geatbx.com/docu/fcnindex-01.html#P89_3085}{\textbf{DeJong's function}}, \href{http://www.geatbx.com/docu/fcnindex-01.html#P150_6749}{\textbf{Schwefel's function}},
+\href{http://www.geatbx.com/docu/fcnindex-01.html#P140_6155}{\textbf{Rastrigin's function}} si \href{http://www.geatbx.com/docu/fcnindex-01.html#P204_10395}{\textbf{Michalewicz's function}}.  Vom compara rezultatele cu cele obținute anterior, la algoritmii Simulated Annealing, Hill Climbing și la algoritmul genetic neoptimizat și vom observa că în anumite situații algoritmii genetici, în special varianta optimizată, dau rezultate mai bune decât cei euristici. 
+
+\includegraphics[scale=2.8]{dejong.jpg}
+\includegraphics[scale=2.8]{ss.jpg}
+\includegraphics[scale=2.8]{rastrigin.jpg}
+\includegraphics[scale=2.8]{mm.jpg}
+
+\section{Introducere}
+
+
+
+Algoritmii genetici sunt algoritmi evolutivi pentru căutare și optimizare care copiază operațiile genetice din organismul uman. Aceștia conțin o secvență de operații, printre care se numără: Selecția, Incrucișarea și Mutația.  \newline
+Un algoritm genetic simulează evoluția printr-o succesiune de generații ale unei populații. O soluție candidat este reprezentată ca un şir de gene (șir de biți). Populația menținută de algoritmul genetic evoluează prin aplicarea operatorilor genetici menționați anterior, soluția fiind îmbunătățită pas cu pas de-a lungul mai multor generații.
+Astfel, folosind algoritmii genetici, vom determina valoarea minimă a funcțiilor prezentate anterior.
+
+\section{Metode}
+
+Am folosit un algoritm genetic, ce pleacă de la ideea de a avea inițial o populație random cu 140 indivizi, ce evolueză pe parcurs. Astfel, putem selecta un număr random de candidați și să îi multiplicăm doi câte doi, creând doi copii care sunt adaugți la populație. \newline
+La fiecare generație, candidații sunt aleși astfel încât cei mai buni dintre ei să aibă șansă mai mare de a fi selectați. Selecția am făcut-o prin metoda Selecției Turneu. \newline
+Un membru al populației este reprezentat printr-o structură ce are următoarele date: cromozomul său (generat random, și codificat cu ajutorul codului Gray), valoarea fitness-ului și o probabilitate random. Cromozomul este reprezentat printr-un șir de biți ce conține coordonatele punctului curent. Fitness-ul fiecărui candidat este calculat în modul următor: $ P(i).fitness = 1 / ( - min(P) * ok + f(P(i).gene) + 100) $, unde ok este 1 dacă $ min(P) $ este negativ și 0 altfel. $ min(P) $ reprezintă minimul curent, P(i) populația, iar $f(gene)$ este valoarea funcției căreia trebuie să îi calculăm minimul. Astfel, fitness-ul va avea mereu o valoare pozitivă. Condiția de oprire este atunci când vom avea 1400 de generații. \newline
+ Probabilitatea de mutație folosită este 0.009, iar cea de crossover de 0.9. \newline
+ Mutația se realizează în modul următor: pentru fiecare genă a fiecărui membru al populației, generăm o probabilitate, dacă aceasta e mai mică decât propabilitatea de mutație (0.009), atunci vom modifica gena de pe poziția respectivă în urmatorul mod: $gena=gena \wedge (ok<<i)$, unde ok=1 daca probabilitatea generata anterior e mai mică decât propabilitatea de mutație si 0 altfel, iar i este pozitia genei curente. \newline
+ Încrucișarea se realizează astfel: ordonăm membrii populației după probabilitate. Între cei care au probabilitatea mai mică decat probabilitatea de crossover (0.9) se va realiza o încrucișare (pe o poziție generată random). \newline
+  
+
+\section{Rezultate}
+
+
+
+Mai jos am realizat un tabel pentru fiecare dintre dimensiunile: 5, 10, 30. Fiecare celulă conține următoarele valori în această ordine: valoarea minima, timpul de execuție și media valorilor. 
+Precizia volorilor este egală cu 5, iar algoritmul a folosit un număr de 30 de iterații.
+
+
+\begin{center}
+  \begin{tabular}{ |P{2cm}||P{2.7cm}|P{2.7cm}|P{2.7cm}|{2.7cm}| }
+      
+    \hline
+    \multicolumn{5}{|c|}{ Algorithm Result (2) } \\
+    
+    \hline
+      functie & Algoritm genetici optimizati & Medie & Timp & Algoritmi genetici\\
+    \hline
+
+    De Jong     & \(0.006\) & \(0.32\) & \(12 s\) & \(0.00018\)\\
+                
+                \hline
+    Schwefel    & \( -837.961 \) & \( -837.715 \) & \( 14 s\) & \( -837.913 \) \\
+               
+                \hline
+    Rastrigin   & \( 0\) & \( 4.869 \) & \( 18 s\) & \( 0.002\) \\
+    
+                \hline
+    Michalewicz & \( -0.97 \) & \( -0.10 \) & \( 14 s\) & \( -0.80 \) \\
+                
+
+    \hline
+  \end{tabular}
+\end{center}
+
+\hline
+
+\begin{center}
+   \begin{tabular}{ |P{2cm}||P{2.7cm}|P{2.7cm}|P{2.7cm}|{2.7cm}| }
+      
+    \hline
+    \multicolumn{5}{|c|}{ Algorithm Result (5) } \\
+    
+    \hline
+      functie & Algoritm genetici optimizati & Medie & Timp & Algoritmi genetici\\
+    \hline
+
+    De Jong     & \( 0.099 \) & \(3.85\) & \( 26 s\)& \( 0.069 \)\\
+                
+                \hline
+    Schwefel    & \( -2094.73\) & \( -2089.55 \) & \( 31 s\) & \( -2094.77\)\\
+               
+                \hline
+    Rastrigin   & \( 0.108\) & \( 5.346 \) & \( 26 s \)& \( 0.07\)\\
+    
+                \hline
+    Michalewicz & \( -3.64\) & \( -2.7581 \) & \( 24 s\) & \( -3.61\)\\
+                
+
+    \hline
+  \end{tabular}
+\end{center}
+
+\begin{center}
+  \begin{tabular}{ |P{2cm}||P{2.8cm}|P{2.8cm}|P{2.8cm}|P{2.8cm}|  }
+      
+    \hline
+    \multicolumn{5}{|c|}{ Algorithm Result (5) } \\
+    
+    \hline
+      functie & HCFI & HCBI & HCWI & SA \\
+    \hline
+
+    De Jong     & \( 1.13687e-10 \) & \(1.13687e-10 \) & \(0.21914 \) & \( 1.15801e-08 \)\\
+                
+                
+                \hline
+    Schwefel    & \( -2094.91 \) & \( -2094.91 \) & \( -1913.34 \) & \(-2094.91\) \\
+                
+                
+                \hline
+    Rastrigin   & \( 4.51065e-09 \) & \( 4.51065e-09 \) & \( 10.5475 \) & \(4.51065e-09\)\\
+                
+                
+                \hline
+    Michalewicz & \( -3.69888 \) & \( -3.69888 \) & \( -3.2954 \) & \(-3.69888\)\\
+                
+                
+
+    \hline
+  \end{tabular}
+\end{center}
+
+\hline
+
+\begin{center}
+   \begin{tabular}{ |P{2cm}||P{2.7cm}|P{2.7cm}|P{2.7cm}|{2.7cm}| }
+      
+    \hline
+    \multicolumn{5}{|c|}{ Algorithm Result (10) } \\
+    
+    \hline
+      functie & Algoritm genetici optimizati & Medie & Timp & Algoritmi genetici\\
+    \hline
+
+    De Jong     & \(0.1091\) & \( 6.2716\) & \( 42 s\)& \(0.2952\)  \\
+                
+                \hline
+    Schwefel    & \( -4189.29 \) & \( -4171.05 \) & \( 53 s \)& \( -4188.34 \) \\
+
+                \hline
+    Rastrigin   & \( 2.99 \) & \( 17.324 \) & \( 40 s \) & \( 2.61 \)\\
+
+                \hline
+    Michalewicz & \( -8.51358 \) & \( -5.6742 \) & \( 48 s \) & \( -8.4337 \)\\
+                
+                
+
+    \hline
+  \end{tabular}
+\end{center}
+
+
+\begin{center}
+  \begin{tabular}{ |P{2cm}||P{2.8cm}|P{2.8cm}|P{2.8cm}|P{2.8cm}| }
+      
+    \hline
+    \multicolumn{5}{|c|}{ Algorithm Result (10) } \\
+    
+    \hline
+      functie & HCFI & HCBI & HCWI & SA\\
+    \hline
+
+    De Jong     & \(2.27374e-10\) & \( 2.27374e-10 \) & \( 3.99246 \) & \(1.33266e-07\) \\
+               
+                
+                \hline
+    Schwefel    & \( -4130.74 \) & \( -4189.51 \) & \( -3630.58 \) & \(-4160.03\)\\
+                
+                
+                \hline
+    Rastrigin   & \( 1.99004 \) & \( 0.995017 \) & \( 32.247 \) & \(3.23129\) \\
+                
+                
+                \hline
+    Michalewicz & \( -8.61317 \) & \( -8.6432 \) & \( -5.06779 \) & \(-8.59603\)\\
+                
+                
+
+    \hline
+  \end{tabular}
+\end{center}
+
+\hline
+
+\begin{center}
+   \begin{tabular}{ |P{2cm}||P{2.7cm}|P{2.7cm}|P{2.7cm}|{2.7cm}| }
+      
+    \hline
+    \multicolumn{5}{|c|}{ Algorithm Result (30) } \\
+    
+    \hline
+      functie & Algoritm genetici optimizati & Medie & Timp & Algoritmi genetici\\
+    \hline
+
+    De Jong     & \( 1.7276 \) & \(9.253\) & \(1 m 45 s\) & \( 1.6392 \)\\
+                
+                \hline
+    Schwefel    & \( -12563.8 \) & \( -12384.3 \) & \( 2 m 15 s \)  & \( -12560.6 \)\\
+               
+                \hline
+    Rastrigin   & \( 23.064\) & \( 29.2746 \) & \( 1 m 32 s\)  & \( 33.452\)\\
+    
+                \hline
+    Michalewicz & \( -26.943 \) & \( -24.7673 \) & \( 1 m 47 s\) & \( -25.8139 \)\\
+                
+
+    \hline
+  \end{tabular}
+\end{center}
+
+
+
+\begin{center}
+  \begin{tabular}{ |P{2cm}||P{2.8cm}|P{2.8cm}|P{2.8cm}|P{2.8cm}|}
+      
+    \hline
+    \multicolumn{5}{|c|}{ Algorithm Result (30) } \\
+    
+    \hline
+      functie & HCFI & HCBI & HCWI & SA \\
+    \hline
+
+    De Jong     & \( 6.82121e-10 \) & \( 6.82121e-10 \) & \( 51.3112 \) & \(0.00135782\) \\
+                
+                
+                \hline
+    Schwefel    & \( -11122.1 \) & \( -11807.9\) & \( -7148.69 \) & \(-11656.1\)\\
+                
+                
+                \hline
+    Rastrigin   & \( 33.2081 \) & \( 23.0617 \) & \( 84.493 \) & \(31.296\)\\
+               
+
+                \hline
+    Michalewicz & \( -25.8959 \) & \(-26.4804 \) & \( -8.46187 \) & \(-24.9721\)\\
+                
+
+    \hline
+  \end{tabular}
+\end{center}
+
+
+
+
+
+
+
+
+\section{Comparatii}
+
+În continuare vom vedea cum variază valoarea minimului aflat pentru funcția Rastrigin, dar și a timpului de execuție, în funcție de dimensiunile imputului.
+
+În acest grafic se poate observa variația timpului de execuție pe masură ce valoarea inputului (numarul de componente) crește pentru funcția Rastrigin \\
+
+
+
+\begin{tikzpicture}
+  \begin{axis}[
+      title={Variatia timpului functia Rastrigin },
+      xlabel={Input},
+      ylabel={Timp (h)},
+      xmin=0, xmax=30,
+      ymin=0, ymax=2.5,
+      xtick={0,5,10,30},
+      ytick={0,0.5,1,2,2.5},
+      legend pos=north west,
+      ymajorgrids=true,
+      grid style=dashed,
+  ]
+  
+  \addplot[
+      color=pink,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0.0089)(10, 0.79)(30, 6.2)
+      };
+      \addlegendentry{HCFI}
+      
+  \addplot[
+      color=green,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0.206)(10, 1.1333)(30, 8.58)
+      };
+      \addlegendentry{HCBI}
+
+   \addplot[
+      color=brown,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0.057)(10, 0.52)(30, 6.033)
+      };
+      \addlegendentry{HCWI}
+
+  \addplot[
+      color=red,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0.0075)(10, 0.015)(30, 0.0477)
+      };
+      \addlegendentry{SA}
+
+      \addplot[
+      color=blue,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0.00888888)(10, 0.011388)(30, 0.0594444)
+      };
+      \addlegendentry{GA}
+
+      \addplot[
+      color=yellow,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0.007222)(10, 0.01111111)(30, 0.0255555)
+      };
+      \addlegendentry{GA-optim}
+  
+      
+  \end{axis}
+\end{tikzpicture}
+
+În acest grafic se poate observa variația minimului obținut pe masură ce valoarea inputului (numarul de componente) crește pentru funcția Rastrigin \\
+
+\begin{tikzpicture}
+  \begin{axis}[
+      title={Variatia minimului functia Rastrigin },
+      xlabel={Input},
+      ylabel={Minim},
+      xmin=0, xmax=30,
+      ymin=0, ymax=90,
+      xtick={0,5,10,30},
+      ytick={0,0.5,1,2,10,20, 30, 50, 80},
+      legend pos=north west,
+      ymajorgrids=true,
+      grid style=dashed,
+  ]
+  
+  \addplot[
+      color=pink,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0)(10, 1.99)(30, 33.20)
+      };
+      \addlegendentry{HCFI}
+      
+  \addplot[
+      color=green,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0)(10, 0.99)(30, 23.06)
+      };
+      \addlegendentry{HCBI}
+
+   \addplot[
+      color=brown,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 10.54)(10, 32.24)(30, 84.49)
+      };
+      \addlegendentry{HCWI}
+
+  \addplot[
+      color=red,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0)(10, 3.23)(30, 31.29)
+      };
+      \addlegendentry{SA}
+
+      \addplot[
+      color=blue,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0.07)(10, 2.61)(30, 33.45)
+      };
+      \addlegendentry{GA}
+
+      \addplot[
+      color=yellow,
+      mark=square,
+      ]
+      coordinates {
+      (0,0)(5, 0.108)(10, 2.99)(30, 23.064)
+      };
+      \addlegendentry{GA-optim}
+
+        \end{axis}
+\end{tikzpicture}
+
+
+Pentru funcția Rastrigin, se poate observa că timplul de execuție al algoritmului genetic (atât optimizat, cât și neoptimizat) este aproximativ la fel de bun ca cel al algoritmului SA. În schimb, Best Improvement a reușit să găsească o valoare mai mică pentru minimul global.
+
+
+Vom compara rezultatele obținute la algoritmul genetic optimizat cu cele obținute la algoritmul genetic neoptimizat pentru fiecare funcție: \newline
+
+De Jong: Pentru fiecare din cele 4 dimensiuni (2, 5, 10, 30) varianta neoptimizată pare să dea rezultate puțin mai bune decât cea optimizată. \newline
+Schwefel: Obținem valori mai bune la varianta optimizată decât la cea neoptimizată.
+Rastrigin: Pe această funcție se observă cel mai bine eficiența variantei optimizate a algoritmului genetic, dând rezultate mult mai bune decât varianta neoptimizată (și la fel de bune la Hill Climbing - Best Improvemnent, dar într-un timp mult mai bun)
+Michalewicz: Obținem valori puțin mai bune la varianta optimizată decât la cea neoptimizată.
+
+
+\section{Concluzie}
+În concluzie, algoritmii genetici dau rezultate destul de bune într-un timp foarte scurt, ceea ce ne ajută în rezolvarea unor probleme, printre care și cea a găsirii minimului unei funcții. Testând algoritmul (atât optimizat, cât și neoptimizat) pe cele 4 funcții menționate la început am putut observa cum variază gasirea optimului, în funcție de numărul de minime locale. 
+
+
+
+\begin{thebibliography}{9}
+
+ 
+  
+  \bibitem{}
+    Eugen Croitoru: Teaching: Genetic Algorithms \newline
+    \url{https://profs.info.uaic.ro/~eugennc/teaching/ga/}
+    \bibitem{}
+  De Jong's function \newline
+    \url{http://www.geatbx.com/docu/fcnindex-01.html#P89_3085}
+  \bibitem{}
+  Schwefel's function \newline
+    \url{http://www.geatbx.com/docu/fcnindex-01.html#P150_6749}
+  \bibitem{}
+  Rastrigin's function \newline
+    \url{http://www.geatbx.com/docu/fcnindex-01.html#P140_6155}
+  \bibitem{}
+  Schwefel's function \newline
+    \url{http://www.geatbx.com/docu/fcnindex-01.html#P204_10395}
+  \bibitem{}
+  Selection,Crossover,Mutation Explication \newline
+    \url{https://www.youtube.com/watch?v=InVJWW_NzFY&list=LL&index=10&t=240s}
+  \bibitem{}
+  What are Genetic Algorithms? \newline
+    \url{http://www.optiwater.com/optiga/ga.html?fbclid=IwAR0hjKRmpOjFvSetqI4Wz-jpNtSrxjLGZaP4wjpfANwguvmAcbYl7ND93GE}
+    \bibitem{}
+    Coduri Gray \newline
+    \url{https://www.infoarena.ro/coduri-gray}
+  \end{thebibliography}   
+  
+
+
+\end{document}
